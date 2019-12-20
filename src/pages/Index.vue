@@ -5,13 +5,14 @@
   >
     <div
       :class="[
-        { current: currentSection === 'div1' },
+        { current: currentSection === 0 },
+        { 'show-next': showNextBlockIndex === 0 },
+        { 'hide-next': hideNextBlockIndex === 0 },
         'column',
         'scroll-block'
       ]"
       id="div1"
       ref="div1"
-      :style="{ opacity: opacitySection1 }"
     >
       <div class="col">
         <h1>current div {{ section }}</h1>
@@ -34,13 +35,14 @@
     </div>
     <div
       :class="[
-        { current: currentSection === 'div2' },
+        { current: currentSection === 1 },
+        { 'show-next': showNextBlockIndex === 1 },
+        { 'hide-next': hideNextBlockIndex === 1 },
         'column',
         'scroll-block'
       ]"
       id="div2"
       ref="div2"
-      :style="{ opacity: opacitySection2 }"
     >
       <div class="col">
         <h1>
@@ -67,13 +69,18 @@
 
     <div
       :class="[
-        { current: currentSection === 'div3' },
+        { current: currentSection === 2 },
+        { 'show-next': showNextBlockIndex === 2 },
+        {
+          'hide-next':
+            hideNextBlockIndex >= 1 ||
+            (showNextBlockIndex !== null && showNextBlockIndex < 2)
+        },
         'column',
         'scroll-block'
       ]"
       id="div3"
       ref="div3"
-      :style="{ opacity: opacitySection3 }"
     >
       <div class="col">
         <h1>
@@ -100,7 +107,7 @@
 </template>
 
 <script>
-import { scroll , debounce } from "quasar";
+import { scroll, debounce } from "quasar";
 import bus from "../utils/bus";
 const { getScrollTarget, getScrollPosition, setScrollPosition } = scroll;
 
@@ -127,10 +134,12 @@ export default {
       scrollInfo: {},
       scrollBlocksHeights: [],
       currentIndex: 0,
+      showNextBlockIndex: null,
+      hideNextBlockIndex: null
 
-      opacitySection1: 1,
-      opacitySection2: 1,
-      opacitySection3: 1
+      // opacitySection1: 1,
+      // opacitySection2: 1,
+      // opacitySection3: 1,
     };
   },
   computed: {
@@ -140,14 +149,12 @@ export default {
     // }
   },
   methods: {
-
-
-    debounceOnScroll: function (info) {
-      return debounce(this.onScroll(info), 500)
+    debounceOnScroll: function(info) {
+      return debounce(this.onScroll(info), 500);
     },
     // scrollInfo 是quasar 提供的scroll信息 ,
     // 我们收集了滚动区域高度范围信息后, 就可以根据scroll信息来进行处理了
-    onScroll: function (info){
+    onScroll: function(info) {
       this.scrollInfo = info;
       console.log(
         "scroll position : ",
@@ -163,11 +170,11 @@ export default {
       );
 
       // let scrollContainerHeight = this.$refs.scrollContainer.$el.clientHeight;
-      let windowHeight = Math.max(document.documentElement.clientHeight,
+      let windowHeight = Math.max(
+        document.documentElement.clientHeight,
         window.innerHeight
       );
-      let scrollBottom =
-        this.scrollInfo.position + windowHeight;
+      let scrollBottom = this.scrollInfo.position + windowHeight;
       console.log("scrollBottom: " + scrollBottom);
       console.log("BlocksHeights" + this.scrollBlocksHeights);
 
@@ -181,32 +188,44 @@ export default {
         // 于是会导致index 没有正确切换赋值
         // 所以这里改成 scroll顶部和内容的顶部 还差顶部300 个像素就认为, 已经是在显示了下个区块
         if (
-          this.scrollInfo.position >= height1 - 300  &&
+          this.scrollInfo.position >= height1 - 300 &&
           this.scrollInfo.position < height2
         ) {
           this.currentIndex = i;
-          scrollBlocks[this.currentIndex].style.opacity = 1;
-          let nextBlock = scrollBlocks[this.currentIndex + 1];
+          // scrollBlocks[this.currentIndex].style.opacity = 1;
+          let nextBlockIndex = this.currentIndex + 1;
+          let nextBlock = scrollBlocks[nextBlockIndex];
           let nextBlockTopOffsetBottom = scrollBottom - height2;
 
-          if(nextBlockTopOffsetBottom < 500) {
-
-            let rate = (nextBlockTopOffsetBottom) / 500;
+          if (nextBlockTopOffsetBottom < windowHeight / 3) {
+            let rate = nextBlockTopOffsetBottom / (windowHeight / 2);
             // console.log(rate);
-            if(this.scrollInfo.direction === "up") {
+            if (this.scrollInfo.direction === "up") {
               // hide next
-              if (nextBlock)
-                nextBlock.style.opacity =
-                  1 - rate
-            }else if (this.scrollInfo.direction === "down") {
+              if (nextBlock) {
+                // nextBlock.style.opacity =  rate - 0.5;
+                // nextBlock.classList.add("hide-next");
+                // this.sectionShow[nextBlockIndex] = false
+                this.showNextBlockIndex = null;
+                this.hideNextBlockIndex = nextBlockIndex;
+              }
+            } else if (this.scrollInfo.direction === "down") {
               // show next
-              if (nextBlock)
-                nextBlock.style.opacity =
-                  rate
+              if (nextBlock) {
+                // nextBlock.style.opacity = rate;
+                // nextBlock.classList.add("show-next");
+                this.showNextBlockIndex = nextBlockIndex;
+                this.hideNextBlockIndex = null;
+
+                // this.sectionShow[nextBlockIndex] = true
+              }
             }
           }
           // 向上翻动, 则后面的逐渐不显示区域设置透明度半透明
-          console.log("scrollBottom - nextSectionTop:", nextBlockTopOffsetBottom);
+          console.log(
+            "scrollBottom - nextSectionTop:",
+            nextBlockTopOffsetBottom
+          );
         }
       }
 
@@ -215,6 +234,8 @@ export default {
       }
 
       console.log("scroll change index:" + this.currentIndex);
+      console.log("hideNextBlockIndex:" + this.hideNextBlockIndex);
+      console.log("showNextBlockIndex:" + this.showNextBlockIndex);
     },
     /***
      * 保存的是显示区块的高度范围数组
@@ -260,13 +281,13 @@ export default {
       let el = scrollBlocks[section];
       const target = getScrollTarget(el);
       const offset = el.offsetTop;
-      const duration = 1000;
+      const duration = 200;
       setScrollPosition(target, offset, duration);
     }
   },
   watch: {
     section() {
-      this.currentSection = this.section ? this.section : "div1";
+      this.currentSection = this.section ? this.section : "0";
 
       this.scrollToSection();
     }
@@ -275,7 +296,19 @@ export default {
 </script>
 
 <style scoped>
+.show-next {
+  transform: translate(0px, 0px);
+  opacity: 1;
+}
+
+.hide-next {
+  transform: translate(-10px, -10px);
+  opacity: 0;
+}
 .scroll-block {
   height: 800px;
+  /*opacity: 1; */
+  /*transition: 1000ms transform ease-in-out, 1000ms opacity ease-in-out;*/
+  transition: 500ms opacity ease-in-out, 500ms transform ease-in-out;
 }
 </style>
