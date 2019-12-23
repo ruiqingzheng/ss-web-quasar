@@ -14,30 +14,7 @@
           as child of QToolbar
         -->
 
-        <q-btn
-          to="/div1"
-          flat
-          stretch
-          label="div1"
-          :class="[{ active: current === 0 }]"
-          @click="current = 0"
-        />
-        <q-btn
-          to="/div2"
-          flat
-          stretch
-          label="div2"
-          :class="[{ active: current === 1 }]"
-          @click="current = 1"
-        />
-        <q-btn
-          to="/div3"
-          flat
-          stretch
-          label="div3"
-          :class="[{ active: current === 2 }]"
-          @click="current = 2"
-        />
+
       </q-toolbar>
     </q-header>
 
@@ -58,28 +35,4 @@
   </q-layout>
 </template>
 
-<script>
-import bus from "../utils/bus";
-export default {
-  data() {
-    return {
-      current: 0
-    };
-  },
-  mounted() {
-    bus.$on("indexChange", index => {
-      this.current = index;
-      // console.log("bus $on index change :" + index);
-    });
-  },
-  components: {},
-  methods: {
-  }
-};
-</script>
 
-<style scoped>
-.active {
-  color: red;
-}
-</style>
