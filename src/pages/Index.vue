@@ -4,7 +4,7 @@
     ref="scrollContainer"
   >
     <IndexTop />
-    <Feature/>
+    <Feature v-scrollanimation/>
   </q-page>
 </template>
 
@@ -19,3 +19,7 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+
+</style>

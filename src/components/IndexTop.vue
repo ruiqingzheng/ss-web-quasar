@@ -23,11 +23,13 @@
     max-width: 1100px;
     margin: auto;
     overflow: hidden;
-    padding: 0 2rem;
+    padding: 0 2rem ;
+    /*height: 100vh;*/
+
   }
 
   .section-a {
-    margin: 2rem 0;
+    margin: 0rem 0;
     .container {
       display: grid;
       grid-template-columns: 50% 50%;

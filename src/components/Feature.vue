@@ -7,10 +7,7 @@
       >
         <q-card flat class="my-card">
           <div class="icon-wrapper">
-            <q-icon
-              name="fas fa-ambulance"
-              class="card-icon"
-            />
+            <q-icon name="fas fa-ambulance" class="card-icon" />
           </div>
 
           <q-card-section>
@@ -23,12 +20,8 @@
           </q-card-section>
         </q-card>
         <q-card flat class="my-card">
-
           <div class="icon-wrapper">
-            <q-icon
-              name="fas fa-ambulance"
-              class="card-icon"
-            />
+            <q-icon name="fas fa-ambulance" class="card-icon" />
           </div>
           <q-card-section>
             <div class="text-h6">Our Changing Planet</div>
@@ -40,12 +33,8 @@
           </q-card-section>
         </q-card>
         <q-card flat class="my-card">
-
           <div class="icon-wrapper">
-            <q-icon
-              name="fas fa-ambulance"
-              class="card-icon"
-            />
+            <q-icon name="fas fa-ambulance" class="card-icon" />
           </div>
           <q-card-section>
             <div class="text-h6">Our Changing Planet</div>
@@ -58,6 +47,15 @@
         </q-card>
       </div>
     </div>
+    <p
+      v-scrollanimation
+      style="width: 100%; font-size: 3rem; text-align: center; padding: 2rem;"
+    >
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias asperiores
+      autem beatae dignissimos dolor eius fugiat hic impedit ipsum, itaque
+      laboriosam laborum, magni obcaecati pariatur praesentium quidem
+      reprehenderit voluptatum? Dignissimos!
+    </p>
   </section>
 </template>
 
@@ -73,6 +71,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.before-enter {
+  transform: translateY(100px);
+  opacity: 0;
+  transition: 2s all ease-out;
+}
+.enter {
+  transform: translateY(0);
+  opacity: 1;
+}
 .section-feature {
   width: 100%;
   margin: 2rem 0;
