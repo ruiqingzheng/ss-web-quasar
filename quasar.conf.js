@@ -19,7 +19,7 @@ module.exports = function (ctx) {
     extras: [
       // 'ionicons-v4',
       // 'mdi-v4',
-      // 'fontawesome-v5',
+      'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
@@ -72,7 +72,16 @@ module.exports = function (ctx) {
     devServer: {
       https: false,
       port: 8080,
-      open: true // opens browser window automatically
+      open: true, // opens browser window automatically
+      watchOptions: {
+        ignored: [
+          'node_modules',
+
+          // be sure to change <myextid> below to
+          // your App Extension name:
+          '!node_modules/quasar-app-extension-scrollanimation'
+        ]
+      }
     },
 
     // animations: 'all', // --- includes all animations

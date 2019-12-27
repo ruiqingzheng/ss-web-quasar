@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title> </title>
+  <style type="text/css">
+    * {
+      padding: 0px;
+      margin: 0px;
+      outline: none;
+    }
+
+    body {}
+
+    #main {
+      margin: 0 auto;
+      width: 600px;
+      height: 300px;
+      overflow: scroll;
+    }
+
+    #con {
+      width: 1200px;
+      height: 300px;
+    }
+
+    .cc {
+      width: 300px;
+      height: 300px;
+      float: left;
+      background-size: cover;
+    }
+
+    #a {
+      background-color: red;
+    }
+
+    #b {
+      background-color: black;
+    }
+
+    #c {
+      background-color: blue;
+    }
+
+    #d {
+      background-color: green;
+    }
+  </style>
+</head>
+
+<body>
+<div id="main">
+  <div id="con">
+    <div id="a" class="cc"></div>
+    <div id="b" class="cc"></div>
+    <div id="c" class="cc"></div>
+    <div id="d" class="cc"></div>
+  </div>
+</div>
+</body>
+<script type="text/javascript">
+  var io = new IntersectionObserver(
+    entries => {
+      console.log('********************************');
+      console.log(entries);
+      console.log('********************************');
+      entries.forEach(i => {
+        console.log('================================');
+        console.log('Time: ' + i.time);
+        console.log('Target: ' + i.target.nodeName);
+        console.log('IntersectionRatio: ' + i.intersectionRatio);
+        console.log('rootBounds: ' + i.rootBounds);
+        console.log(i.boundingClientRect);
+        console.log(i.intersectionRect);
+        console.log('================================');
+
+        if(i.intersectionRatio >= 0.25) { //可见元素占视窗的25%触发
+          console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+          i.target.style.backgroundImage = "url(" + 'http://pic35.photophoto.cn/20150528/0020032932102307_b.jpg' + ")"
+        }
+
+      });
+    }, {
+      /* Using default options. Details below */
+      threshold: [0, 0.25, 0.5, 0.75, 1],   //会执行5次
+    }
+  );
+  // Start observing an element
+  io.observe(document.querySelector('#d'));
+  io.observe(document.querySelector('#c'));
+</script>
+
+</html>
