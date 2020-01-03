@@ -4,7 +4,8 @@
     ref="scrollContainer"
   >
     <IndexTop />
-    <Feature v-scrollanimation/>
+    <Feature/>
+    <Packages/>
   </q-page>
 </template>
 
@@ -12,12 +13,13 @@
 
 import IndexTop from "../components/IndexTop";
 import Feature from "../components/Feature";
+import Packages from "../components/Packages";
 
 export default {
   components: {
     IndexTop,
-    Feature
-
+    Feature,
+    Packages
   }
 };
 </script>

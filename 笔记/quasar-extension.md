@@ -45,7 +45,7 @@ $ yarn link quasar-app-extension-<ext-id>
 # in our demo case, it's this:
 # $ yarn link quasar-app-extension-my-ext
 ```
-5. 安装和卸载
+5. 安装和卸载 
 
 ```s
 
