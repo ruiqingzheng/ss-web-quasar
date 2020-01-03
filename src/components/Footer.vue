@@ -171,4 +171,19 @@ a {
   cursor: pointer;
   border-radius: 0 20px 20px 0;
 }
+
+@media (max-width: 700px) {
+  .section-footer {
+    padding: 2rem 0;
+  }
+  .section-footer .container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .section-footer div:nth-child(2),
+  .section-footer div:nth-child(3) {
+    display: none;
+  }
+}
 </style>
