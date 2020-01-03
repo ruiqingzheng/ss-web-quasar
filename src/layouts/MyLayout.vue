@@ -15,32 +15,11 @@
           notice shrink property since we are placing it
           as child of QToolbar
         -->
-        <ul class="nav">
-          <li>
+        <ul class="nav desktop-only" >
+          <li v-for="(nav, index) in navs" :key="index">
             <a class="btn-wrap">
-              <q-icon name="home" class="text-orange btn-icon" />
-              <span>Home</span>
-            </a>
-          </li>
-
-          <li>
-            <a class="btn-wrap">
-              <q-icon name="flag" class="text-orange btn-icon" />
-              <span>About</span>
-            </a>
-          </li>
-
-          <li>
-            <a class="btn-wrap">
-              <q-icon name="web" class="text-orange btn-icon" />
-              <span>Blog</span>
-            </a>
-          </li>
-
-          <li>
-            <a class="btn-wrap">
-              <q-icon name="contacts" class="text-orange btn-icon" />
-              <span>Contact</span>
+              <q-icon :name="nav.icon" class="btn-icon" />
+              <span>{{nav.label}}</span>
             </a>
           </li>
         </ul>
@@ -63,6 +42,28 @@
   export default {
     components: {
       Footer
+    },
+    data: () => {
+      return {
+        navs: [
+          {
+            id: 'home',
+            label: '首页',
+            icon: 'home'
+          },
+
+          {
+            id: 'feature',
+            label: '特性',
+            icon: 'web'
+          },
+          {
+            id: 'feature',
+            label: '定价',
+            icon: 'tab'
+          }
+        ]
+      }
     }
 
 
@@ -76,16 +77,21 @@
   padding: 0;
   list-style: none;
   display: flex;
+  /*height: 2rem;*/
 }
 
 .nav li {
-  margin-left: 3em;
-  margin-right: 0.5em;
+  margin-left: 0em;
+  margin-right: 0em;
   margin-bottom: 0;
+  width: 6rem;
+  line-height: 3rem;
+  /*border: solid 1px;*/
 }
 
 .nav a {
-  color: black;
+  width: 100%;
+  color: $dark;
   text-decoration: none;
   font-size: 0.9rem;
   text-transform: uppercase;
@@ -94,13 +100,16 @@
   transition: opacity 150ms ease-in-out;
 }
 
-.nav a:hover {
-  color: #c4c4c4;
-}
-.btn-wrap {
+
+.nav .btn-wrap {
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+}
+
+.nav .btn-wrap:hover {
+  color: $primary;
 }
 
 .btn-icon {
@@ -109,12 +118,13 @@
 }
 
 .nav a::before {
+  /*width: 100%;*/
   content: "";
   display: block;
-  height: 3px;
-  background: black;
+  height: 0.15rem;
+  background: $primary;
   position: absolute;
-  top: -0.75em;
+  top: -0.1rem;
   left: 0;
   right: 0;
   transform: scale(0, 1);
