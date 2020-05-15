@@ -31,7 +31,7 @@ export default {
   data: () => {
     return {
       topData: {
-        title1: "顷刻之间,<br>眨眼加载.!!!!!!",
+        title1: "顷刻之间,<br>眨眼加载.!!!!!! jenkins test 2!!",
         title2: "眨眼加载.",
 
         desc:
